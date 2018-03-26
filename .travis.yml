@@ -1,0 +1,12 @@
+services:
+- docker
+script:
+- docker build -t wtanaka/kotlin-prelude-ci config/dockerfile-ci
+- >
+  docker run
+  -e "HOSTUID=`id -u`"
+  -e "HOSTGID=`id -g`"
+  -v "`pwd`:/work"
+  -v "$HOME:/home/hostuser"
+  -i -t wtanaka/kotlin-prelude-ci
+  /opt/gradle/bin/gradle check
